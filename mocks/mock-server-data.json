@@ -1,0 +1,129 @@
+{
+  "api": {
+    "titles": [
+      "Fast and Furious",
+      "Pulp Fiction",
+      "Aviator",
+      "Beautiful Mind",
+      "Snatch"
+    ],
+    "descriptions": [
+      "Dominic Toretto is a gang leader who is accused of hijacking trucks and stealing over a million dollars worth of electronic equipment. The FBI sends LAPD officer Brian O'Conner undercover into Los Angeles street racing circuit to take down Toretto and his team.",
+      "Unscrupulous boxing promoters, violent bookmakers, a Russian gangster, incompetent amateur robbers and supposedly Jewish jewelers fight to track down a priceless stolen diamond.",
+      "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+      "A biopic depicting the early years of legendary director and aviator Howard Hughes' career from the late 1920s to the mid 1940s.",
+      "After John Nash, a brilliant but asocial mathematician, accepts secret work in cryptography, his life takes a turn for the nightmarish."
+    ],
+    "genres": [
+      "comedy",
+      "crime",
+      "documentary",
+      "drama",
+      "horror",
+      "family",
+      "romance",
+      "scifi",
+      "thriller"
+    ],
+    "videoLinks": [
+      "https://10.react.pages.academy/static/film/video/bubbles.mp4",
+      "https://10.react.pages.academy/static/film/video/not-bubbles.mp4",
+      "https://10.react.pages.academy/static/film/video/maybe-bubbles.mp4",
+      "https://10.react.pages.academy/static/film/video/bulbs.mp4",
+      "https://10.react.pages.academy/static/film/video/buddies.mp4"
+    ],
+    "starrings": [
+      [
+        "Jason Statham",
+        "Brad Pitt",
+        "Benicio Del Toro"
+      ],
+      [
+        "Tom Cruise",
+        "Dakota Fanning",
+        "Tim Robbins"
+      ],
+      [
+        "Rowan Atkinson",
+        "John Malkovich",
+        "Natalie Imbruglia"
+      ],
+      [
+        "Owen Wilson",
+        "Adrien Brody",
+        "Jason Schwartzman"
+      ],
+      [
+        "Jared Gilman",
+        "Kara Hayward",
+        "Bruce Willis"
+      ]
+    ],
+    "directors": [
+      "Guy Ritchie",
+      "Justin Lin",
+      "Michael Bay",
+      "Quentin Tarantino",
+      "Martin Scorsese"
+    ],
+    "posterImages": [
+      "https://10.react.pages.academy/static/film/poster/What-We-Do-in-the-Shadows.jpg",
+      "https://10.react.pages.academy/static/film/poster/Dardjeeling_Limited.jpg",
+      "https://10.react.pages.academy/static/film/poster/Aviator.jpg",
+      "https://10.react.pages.academy/static/film/poster/Snatch.jpg",
+      "https://10.react.pages.academy/static/film/poster/Gangs_of_New_York_Poster.jpg"
+    ],
+    "backgroundImages": [
+      "https://10.react.pages.academy/static/film/background/What-We-Do-in-the-Shadows.jpg",
+      "https://10.react.pages.academy/static/film/background/Aviator.jpg",
+      "https://10.react.pages.academy/static/film/background/Moonrise_Kingdom.jpg",
+      "https://10.react.pages.academy/static/film/background/Dardjeeling_Limited.jpg",
+      "https://10.react.pages.academy/static/film/background/Johnny_English.jpg"
+    ],
+    "backgroundColors": [
+      "#FDFDFC",
+      "#A39E81",
+      "#D8E3E5",
+      "#FFFFFF",
+      "#EFEFEF"
+    ],
+    "userNames": [
+      "Иван",
+      "Олег",
+      "Пьер",
+      "Роланд",
+      "Холи",
+      "Джек",
+      "Антон",
+      "Борис",
+      "Рокки",
+      "Джон"
+    ],
+    "emails": [
+      "snow@pisem.local",
+      "president@dka.local",
+      "fish@big.local",
+      "test@pisem.local",
+      "freedom@pisem.local",
+      "rolan@pochta.local",
+      "author@mir.local",
+      "test@lost.loca",
+      "kujo-fan@story.local"
+    ],
+    "avatars": [
+      "user.jpg",
+      "photo.jpg",
+      "awesome-avatar.jpg",
+      "roland.jpg",
+      "smit.jpg",
+      "coffee.jpg"
+    ],
+    "passwords": [
+      "fewrfefbhtrw32r43t",
+      "gergereklij3q49tu9g",
+      "verijoj932hfhfhfh",
+      "ferw1211111",
+      "f4321223er32r23r"
+    ]
+  }
+}
