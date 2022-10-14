@@ -6,11 +6,25 @@ import {Container} from 'inversify';
 import {ConfigInterface} from './common/config/config.interface.js';
 import {Component} from './types/component.types.js';
 import {LoggerInterface} from './common/logger/logger.interface.js';
+import DatabaseService from './common/database-client/database.service';
+import {DatabaseInterface} from './common/database-client/database.interface';
+import UserService from './modules/user/user.service';
+import {UserServiceInterface} from './modules/user/user-service.interface';
+import {UserEntity, UserModel} from './modules/user/user.entity';
+import {types} from '@typegoose/typegoose';
+import {FilmEntity, FilmModel} from './modules/film/film.entity';
+import {FilmServiceInterface} from './modules/film/film-service.interface';
+import FilmService from './modules/film/fim.service';
 
 const applicationContainer = new Container();
 applicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
 applicationContainer.bind<LoggerInterface>(Component.LoggerInterface).to(LoggerService).inSingletonScope();
 applicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigService).inSingletonScope();
+applicationContainer.bind<DatabaseInterface>(Component.DatabaseInterface).to(DatabaseService).inSingletonScope();
+applicationContainer.bind<UserServiceInterface>(Component.UserServiceInterface).to(UserService);
+applicationContainer.bind<types.ModelType<UserEntity>>(Component.UserModel).toConstantValue(UserModel);
+applicationContainer.bind<FilmServiceInterface>(Component.FilmServiceInterface).to(FilmService);
+applicationContainer.bind<types.ModelType<FilmEntity>>(Component.FilmModel).toConstantValue(FilmModel);
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();
