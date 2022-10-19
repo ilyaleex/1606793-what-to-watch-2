@@ -8,18 +8,18 @@ export type User = {
 export type Film = {
   name: string
   description: string
-  posted: Date
+  postDate: Date
   genre: string
-  released: number
+  releaseYear: number
   rating: number
   previewVideoLink: string
   videoLink: string
   starring: string[]
   director: string
   runTime: number
-  commentsAmount: number
+  commentsCount: number
   user: User
   posterImage: string
-  backgroundImage: string
-  backgroundColor: string
+  bgImage: string
+  bgColor: string
 }

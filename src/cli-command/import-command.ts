@@ -7,7 +7,7 @@ import {LoggerInterface} from '../common/logger/logger.interface';
 import {FilmServiceInterface} from '../modules/film/film-service.interface';
 import {FilmModel} from '../modules/film/film.entity';
 import ConsoleLoggerService from '../common/logger/console-logger.service';
-import FilmService from '../modules/film/fim.service';
+import FilmService from '../modules/film/film.service';
 import UserService from '../modules/user/user.service';
 import {UserModel} from '../modules/user/user.entity';
 import DatabaseService from '../common/database-client/database.service';
