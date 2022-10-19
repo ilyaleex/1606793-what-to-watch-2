@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: '3.0.1'
 info:
   title: API server for project "What to watch".
   description: |-
@@ -8,14 +8,14 @@ info:
     url: https://opensource.org/licenses/MIT
   version: 2.0.0
 tags:
-- name: users
-  description: Actions with user.
-- name: films
-  description: Actions with films.
-- name: comments
-  description: Actions with comments.
-- name: watchlist
-  description: Actions with watchlist.
+  - name: users
+    description: Actions with user.
+  - name: films
+    description: Actions with films.
+  - name: comments
+    description: Actions with comments.
+  - name: watchlist
+    description: Actions with watchlist.
 
 paths:
   /users/register:
@@ -48,6 +48,8 @@ paths:
       tags:
         - users
       summary: User authorization
+      description: Authorizes user based on login and password.
+
       responses:
         "200":
           description: User authorized. User object.
@@ -56,16 +58,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
 
-      description: Authorizes user based on login and password.
-
     get:
       tags:
         - users
       summary: User status check
+      description: Returns information on the authorized user.
+
       responses:
         "401":
           description: User is not authorized.
-      description: Returns information on the authorized user.
 
   /users/{userId}/avatar:
     post:
@@ -73,6 +74,7 @@ paths:
         - users
       summary: Upload avatar image
       description: Uploads avatar image of the user. The image must be in `png` or `jpg` format.
+
       responses:
         "201":
           description: Avatar is loaded.
@@ -136,8 +138,8 @@ paths:
     put:
       tags:
         - films
-      summary: Editing the film card.
-      description: Edits the film card. User is able to edit the film card that he added.
+      summary: Editing film card.
+      description: Edits film card. User is able to edit the film card that he added.
 
       parameters:
         - name: filmId
@@ -157,6 +159,7 @@ paths:
                 $ref: '#/components/schemas/film'
         "401":
           description: User is not authorized.
+
       requestBody:
         description: Information on editing the film card.
         content:
@@ -171,6 +174,7 @@ paths:
       summary: Getting film details.
       description: Returns detailed informtion on exact film.
         The information can be requested by both authorized and anonymous users.
+
       responses:
         "200":
           description: Film object.
@@ -182,8 +186,8 @@ paths:
     delete:
       tags:
         - films
-      summary: Deleting the film card.
-      description: Deletes the film card. User is allowed to delete films that he added only.
+      summary: Deleting film card.
+      description: Deletes film card. User is allowed to delete films that he added only.
 
       responses:
         "401":
@@ -281,6 +285,7 @@ paths:
           - films
         summary: Adding/removing the film from watchlist.
         description: The service provides a resource for adding/removing any movie from watchlist.
+
         parameters:
           - name: filmId
             in: path
