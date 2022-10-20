@@ -1,10 +1,10 @@
-import {UserEntity} from './user.entity';
-import CreateUserDto from './dto/create-user.fto';
+import {UserEntity} from './user.entity.js';
+import CreateUserDto from './dto/create-user.dto.js';
 import {DocumentType, types} from '@typegoose/typegoose';
-import {UserServiceInterface} from './user-service.interface';
+import {UserServiceInterface} from './user-service.interface.js';
 import {inject, injectable} from 'inversify';
-import {Component} from '../../types/component.types';
-import {LoggerInterface} from '../../common/logger/logger.interface';
+import {Component} from '../../types/component.types.js';
+import {LoggerInterface} from '../../common/logger/logger.interface.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -27,13 +27,26 @@ export default class UserService implements UserServiceInterface {
     return this.userModel.findOne({email});
   }
 
-  public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const existedUser = await this.findByEmail(dto.email);
+  public async findById(id: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findById(id);
+  }
 
-    if (existedUser) {
-      return existedUser;
+  public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
+    const user = await this.findByEmail(dto.email);
+    return user ? user : this.create(dto, salt);
+  }
+
+  public async verifyUser(dto: LoginUserDto, salt: string): Promise<DocumentType<UserEntity> | null> {
+    const existingUser = await this.findByEmail(dto.email);
+
+    if (!existingUser) {
+      return null;
     }
 
-    return this.create(dto, salt);
+    return existingUser.verifyPassword(dto.password, salt) ? existingUser : null;
+  }
+
+  public async exists(userId: string): Promise<boolean> {
+    return (await this.userModel.exists({_id: userId})) !== null;
   }
 }

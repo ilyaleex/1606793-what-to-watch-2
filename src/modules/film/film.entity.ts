@@ -21,13 +21,13 @@ export class FilmEntity extends defaultClasses.TimeStamps {
   public image!: string;
 
   @prop({required: true})
-  public posted!: Date;
+  public postDate!: Date;
 
   @prop({required: true})
   public genre!: number;
 
   @prop({required: true})
-  public released!: number;
+  public releaseYear!: number;
 
   @prop({required: true})
   public rating!: number;
@@ -48,7 +48,7 @@ export class FilmEntity extends defaultClasses.TimeStamps {
   public runTime!: number;
 
   @prop({default: 0})
-  public commentsAmount!: number;
+  public commentsCount!: number;
 
   @prop({
     ref: UserEntity,
@@ -60,10 +60,16 @@ export class FilmEntity extends defaultClasses.TimeStamps {
   public posterImage!: string;
 
   @prop({required: true})
-  public backgroundImage!: string;
+  public bgImage!: string;
 
   @prop({required: true})
-  public backgroundColor!: string;
+  public bgColor!: string;
+
+  @prop({
+    required: true,
+    default: false,
+    })
+  public isFavorite!: boolean;
 }
 
 export const FilmModel = getModelForClass(FilmEntity);

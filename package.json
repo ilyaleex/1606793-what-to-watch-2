@@ -10,7 +10,7 @@
   "main": "main.js",
   "scripts": {
     "start": "npm run build && node ./dist/main.js",
-    "start:dev": "npm run ts ./src/main.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "start:dev": "nodemon",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
@@ -30,7 +30,7 @@
     "json-server": "^0.17.0",
     "pino-pretty": "^9.1.0",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.7.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.2"
   },
   "type": "module",
@@ -47,6 +47,7 @@
     "got": "^12.5.0",
     "inversify": "^6.0.1",
     "mongoose": "^6.6.5",
+    "nodemon": "^2.0.20",
     "pino": "^8.6.1",
     "reflect-metadata": "^0.1.13"
   }
