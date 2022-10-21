@@ -5,6 +5,7 @@ import {UserServiceInterface} from './user-service.interface.js';
 import {inject, injectable} from 'inversify';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
+import LoginUserDto from './dto/login-user.dto.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {

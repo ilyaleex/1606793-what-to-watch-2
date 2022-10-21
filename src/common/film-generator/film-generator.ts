@@ -18,7 +18,7 @@ export default class FilmGenerator implements FilmGeneratorInterface {
   constructor(private readonly mockData: MockData) {}
 
   public generate(): string {
-    const name = getRandomItem<string>(this.mockData.titles);
+    const name = getRandomItem<string>(this.mockData.names);
     const description = getRandomItem<string>(this.mockData.descriptions);
     const postDate =  dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
     const genre = getRandomItem<string>(this.mockData.genres);

@@ -1,6 +1,7 @@
 import {Genre} from '../../../types/genre.enum';
 
 export default class CreateFilmDto {
+  public id!: string;
   public name!: string;
   public description!: string;
   public postDate!: Date;

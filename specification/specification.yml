@@ -455,7 +455,7 @@ components:
 
         starring:
           type: array
-          example: [Dominic Toretto, Paul Walker, Michelle Rodriguez]
+          example: [Vin Diesel, Paul Walker, Michelle Rodriguez]
 
         director:
           type: string
@@ -489,9 +489,13 @@ components:
       type: object
 
       properties:
+        id:
+          type: number
+          example: 1
+
         name:
           type: string
-          example: Fast and Furios
+          example: Fast and Furious
 
         postDate:
           type: string
@@ -559,7 +563,7 @@ components:
 
         starring:
           type: array
-          example: [Dominic Toretto, Paul Walker, Michelle Rodriguez]
+          example: [Vin Diesel, Paul Walker, Michelle Rodriguez]
 
         director:
           type: string
@@ -631,7 +635,7 @@ components:
 
         starring:
           type: array
-          example: [Dominic Toretto, Paul Walker, Michelle Rodriguez]
+          example: [Vin Diesel, Paul Walker, Michelle Rodriguez]
 
         director:
           type: string

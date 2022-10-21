@@ -1,5 +1,5 @@
 export type MockData = {
-  titles: string[]
+  names: string[]
   descriptions: string[]
   genres: string[]
   videoLinks: string[]
