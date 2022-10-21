@@ -1,4 +1,65 @@
-# Тестовые данные
+# Mock data
 GET http://localhost:3333/api HTTP/1.1
+
+###
+
+###
+
+# Films
+## Get films list
+
+GET http://localhost:3333/films HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": "1",
+  "name": "Fast And Furious",
+  "description": "Dominic Toretto is a gang leader who is accused of hijacking trucks and stealing over a million dollars...",
+  "postDate": "2022-04-06T08:45:40.283Z",
+  "genre": "crime",
+  "releaseYear": "2001",
+  "rating": 7.7,
+  "previewVideoLink": "http://previewvideo1.com",
+  "videoLink": "http://video1.com",
+  "starring": [
+    "Vin Diesel",
+    "Paul Walker",
+    "Michelle Rodriguez"
+  ],
+  "director": "Justin Lin",
+  "runTime": 106,
+  "commentsCount": 40,
+  "userId": "12",
+  "posterImage": "http://poster2/1.jpg",
+  "bgImage": "http://bg2/1.jpg",
+  "bgColor": "#ffffff"
+}
+
+###
+
+# Users
+## User registration
+
+POST http://localhost:3333/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "userName": "Jack",
+  "email": "torans@overlook.net",
+  "avatarUrl": "torrance.png",
+  "password": "shining"
+}
+
+###
+
+## User authorization
+
+POST http://localhost:3333/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans@overlook.net",
+  "password": "123456"
+}
 
 ###
