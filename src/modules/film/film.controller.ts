@@ -26,8 +26,8 @@ export default class FilmController extends Controller {
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
-    const categories = await this.filmService.find();
-    const filmResponse = fillDTO(FilmResponse, categories);
+    const films = await this.filmService.find();
+    const filmResponse = fillDTO(FilmResponse, films);
     this.send(res, StatusCodes.OK, filmResponse);
   }
 

@@ -36,7 +36,7 @@ applicationContainer.bind<types.ModelType<FilmEntity>>(Component.FilmModel).toCo
 applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService).inSingletonScope();
 applicationContainer.bind<types.ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
 
-applicationContainer.bind<ControllerInterface>(Component.CategoryController).to(FilmController).inSingletonScope();
+applicationContainer.bind<ControllerInterface>(Component.FilmController).to(FilmController).inSingletonScope();
 applicationContainer.bind<ExceptionFilterInterface>(Component.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
 applicationContainer.bind<ControllerInterface>(Component.UserController).to(UserController).inSingletonScope();
 

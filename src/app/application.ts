@@ -17,7 +17,7 @@ export default class Application {
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
-    @inject(Component.CategoryController) private categoryController: ControllerInterface,
+    @inject(Component.FilmController) private filmController: ControllerInterface,
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
     @inject(Component.UserController) private userController: ControllerInterface,
   ) {
@@ -25,7 +25,7 @@ export default class Application {
   }
 
   public initRoutes() {
-    this.expressApp.use('/films', this.categoryController.router);
+    this.expressApp.use('/films', this.filmController.router);
     this.expressApp.use('/users', this.userController.router);
   }
 
