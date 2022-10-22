@@ -1,8 +1,8 @@
 import typegoose, {defaultClasses, getModelForClass, Ref} from '@typegoose/typegoose';
 import {UserEntity} from '../user/user.entity.js';
 import {FilmEntity} from '../film/film.entity.js';
-import {CommentLength} from './enums/comment-length.enum.js';
-import {Rating} from './enums/rating.enum.js';
+import {CommentLength} from './enum/comment-length.enum.js';
+import {Rating} from './enum/rating.enum.js';
 
 const {prop, modelOptions} = typegoose;
 

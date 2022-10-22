@@ -10,3 +10,4 @@ export interface ControllerInterface {
   created<T>(res: Response, data: T): void;
   noContent<T>(res: Response, data: T): void;
 }
+

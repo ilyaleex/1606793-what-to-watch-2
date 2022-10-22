@@ -1,4 +1,5 @@
-import {Expose} from 'class-transformer';
+import {Expose, Type} from 'class-transformer';
+import UserResponse from '../../user/response/user.response';
 
 export class FilmResponse {
   @Expose()
@@ -13,8 +14,9 @@ export class FilmResponse {
   @Expose()
   public genre!: string;
 
-  @Expose()
-  public userId!: string;
+  @Expose({name: 'userId'})
+  @Type(() => UserResponse)
+  public user!: UserResponse;
 
   @Expose()
   public previewVideoLink!: string;
