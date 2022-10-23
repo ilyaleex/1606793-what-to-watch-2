@@ -1,6 +1,7 @@
 import {User} from '../../types/types.js';
 import typegoose, {defaultClasses, getModelForClass} from '@typegoose/typegoose';
 import {createSHA256} from '../../utils/common.js';
+import CreateUserDto from './dto/create-user.dto';
 
 const {prop, modelOptions} = typegoose;
 
@@ -12,7 +13,7 @@ export interface UserEntity extends defaultClasses.Base {}
   }
   })
 export class UserEntity extends defaultClasses.TimeStamps implements User {
-  constructor(data: User) {
+  constructor(data: CreateUserDto) {
     super();
 
     this.userName = data.userName;

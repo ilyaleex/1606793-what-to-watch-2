@@ -2,8 +2,9 @@ import {DocumentType} from '@typegoose/typegoose';
 import CreateFilmDto from './dto/create-film.dto.js';
 import {FilmEntity} from './film.entity.js';
 import UpdateFilmDto from './dto/update-film.dto.js';
+import {DocumentExistsInterface} from '../../types/document-exists.interface.js';
 
-export interface FilmServiceInterface {
+export interface FilmServiceInterface extends DocumentExistsInterface {
   create(dto: CreateFilmDto): Promise<DocumentType<FilmEntity>>;
   findById(FilmId: string): Promise<DocumentType<FilmEntity> | null>;
   find(): Promise<DocumentType<FilmEntity>[]>;
@@ -14,6 +15,5 @@ export interface FilmServiceInterface {
   findPromo(): Promise<DocumentType<FilmEntity> | null>;
   findWatchlist(): Promise<DocumentType<FilmEntity>[]>;
   findAndChangeFavoriteStatus(filmId: string, status: 0 | 1): Promise<DocumentType<FilmEntity> | null>;
-  exists(documentId: string): Promise<boolean>
 }
 
