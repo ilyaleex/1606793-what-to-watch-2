@@ -46,8 +46,4 @@ export default class UserService implements UserServiceInterface {
 
     return existingUser.verifyPassword(dto.password, salt) ? existingUser : null;
   }
-
-  public async exists(userId: string): Promise<boolean> {
-    return (await this.userModel.exists({_id: userId})) !== null;
-  }
 }

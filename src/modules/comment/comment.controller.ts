@@ -12,6 +12,7 @@ import {HttpMethod} from '../../types/http-method.enum.js';
 import {fillDTO} from '../../utils/common.js';
 import CommentResponse from './response/comment.response.js';
 import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware';
+import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware';
 
 export type IndexParams = {
   filmId: string
@@ -34,7 +35,10 @@ export default class CommentController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)]
+      middlewares: [
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ]
     });
   }
 
