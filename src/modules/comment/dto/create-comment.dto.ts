@@ -9,7 +9,6 @@ export default class CreateCommentDto {
   @Max(10, {})
   public rating!: number;
 
-  @IsMongoId({message: 'userId field must be valid an id'})
   public userId!: string;
 
   @IsMongoId({message: 'filmId field must be valid an id'})

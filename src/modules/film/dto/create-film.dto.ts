@@ -40,7 +40,6 @@ export default class CreateFilmDto {
   @IsNumber({},{message: 'commentsCount must be a number'})
   public commentsCount!: number;
 
-  @IsMongoId({message: 'userId field must be valid an id'})
   public userId!: string;
 
   public posterImage!: string;
