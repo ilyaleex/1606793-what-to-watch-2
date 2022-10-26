@@ -11,8 +11,9 @@ import {FilmServiceInterface} from '../film/film-service.interface.js';
 import {HttpMethod} from '../../types/http-method.enum.js';
 import {fillDTO} from '../../utils/common.js';
 import CommentResponse from './response/comment.response.js';
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware';
-import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware';
+import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
+import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js';
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 
 export type IndexParams = {
   filmId: string
@@ -36,19 +37,20 @@ export default class CommentController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateCommentDto),
-        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId')
       ]
     });
   }
 
   public async create(
-    {params}: Request<core.ParamsDictionary | CreateParams,
+    {params, body, user}: Request<core.ParamsDictionary | CreateParams,
       Record<string, unknown>, CreateCommentDto>,
     res: Response,
   ): Promise<void> {
 
-    const comment = await this.filmService.exists(params.filmId);
+    const comment = await this.commentService.create(params.filmId, {...body, userId: user.id});
     this.send(res, StatusCodes.CREATED, fillDTO(CommentResponse, comment));
   }
 
