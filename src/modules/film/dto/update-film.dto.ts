@@ -1,4 +1,4 @@
-import {Genre} from '../../../types/genre.enum';
+import {Genre} from '../../../types/genre.enum.js';
 import {IsArray, IsEnum, IsInt, IsMongoId, IsNumber, IsOptional, Max, MaxLength, MinLength} from 'class-validator';
 
 export default class UpdateFilmDto {

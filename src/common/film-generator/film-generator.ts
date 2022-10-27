@@ -35,12 +35,12 @@ export default class FilmGenerator implements FilmGeneratorInterface {
     const bgColor = getRandomItem<string>(this.mockData.bgColors);
     const userName = getRandomItem<string>(this.mockData.userNames);
     const email = getRandomItem<string>(this.mockData.emails);
-    const avatarUrl = getRandomItem<string>(this.mockData.avatars);
+    const avatarPath = getRandomItem<string>(this.mockData.avatars);
     const password = getRandomItem<string>(this.mockData.passwords);
 
     return [
       name, description, postDate, genre, releaseYear, rating, previewVideoLink, videoLink,
-      starring, director, runTime, commentsCount, posterImage, bgImage, bgColor, userName, email, avatarUrl, password
+      starring, director, runTime, commentsCount, posterImage, bgImage, bgColor, userName, email, avatarPath, password
     ].join('\t');
   }
 }

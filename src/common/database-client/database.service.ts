@@ -1,7 +1,7 @@
 import {inject, injectable} from 'inversify';
-import {Component} from '../../types/component.types';
-import {DatabaseInterface} from './database.interface';
-import {LoggerInterface} from '../logger/logger.interface';
+import {Component} from '../../types/component.types.js';
+import {DatabaseInterface} from './database.interface.js';
+import {LoggerInterface} from '../logger/logger.interface.js';
 import * as mongoose from 'mongoose';
 
 @injectable()
