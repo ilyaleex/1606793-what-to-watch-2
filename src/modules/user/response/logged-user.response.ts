@@ -6,4 +6,10 @@ export default class LoggedUserResponse {
 
   @Expose()
   public email!: string;
+
+  @Expose()
+  public userName!: string ;
+
+  @Expose()
+  public avatarPath!: string;
 }

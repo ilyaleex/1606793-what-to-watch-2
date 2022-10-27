@@ -1,5 +1,5 @@
 import typegoose, {defaultClasses, getModelForClass, Ref} from '@typegoose/typegoose';
-import {UserEntity} from '../user/user.entity';
+import {UserEntity} from '../user/user.entity.js';
 
 const {prop, modelOptions} = typegoose;
 

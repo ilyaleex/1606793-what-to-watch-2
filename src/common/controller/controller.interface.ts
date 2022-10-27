@@ -1,4 +1,3 @@
-
 import {RouteInterface} from '../../types/route.interface.js';
 import {Response, Router} from 'express';
 

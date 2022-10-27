@@ -6,7 +6,7 @@ import CreateFilmDto from './dto/create-film.dto.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {FilmServiceInterface} from './film-service.interface.js';
 import UpdateFilmDto from './dto/update-film.dto.js';
-import {DEFAULT_FILM_COUNT} from './film.const';
+import {DEFAULT_FILM_COUNT} from './film.const.js';
 import {Types} from 'mongoose';
 
 @injectable()
@@ -77,7 +77,7 @@ export default class FilmService implements FilmServiceInterface {
             localField: 'user',
             foreignField: '_id',
             pipeline: [
-              { $project: { userName: 1, email: 1, avatarUrl: 1, password: 1}}
+              { $project: { userName: 1, email: 1, avatarPath: 1, password: 1}}
             ],
             as: 'user'
           }

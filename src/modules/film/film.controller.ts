@@ -9,12 +9,13 @@ import * as core from 'express-serve-static-core';
 import {fillDTO} from '../../utils/common.js';
 import {FilmResponse} from './response/film.response.js';
 import CreateFilmDto from './dto/create-film.dto.js';
-import UpdateFilmDto from './dto/update-film.dto';
+import UpdateFilmDto from './dto/update-film.dto.js';
 import {RequestQuery} from '../../types/request-query.type.js';
 import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware';
-import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware';
+import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
+import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js';
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+import {ConfigInterface} from '../../common/config/config.interface.js';
 
 type ParamsGetFilm = {
   filmId: string;
@@ -28,9 +29,10 @@ type ParamsGetGenre = {
 export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for FilmController…');
     this.addRoute({

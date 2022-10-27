@@ -24,7 +24,7 @@ Content-Type: application/json
 {
   "userName": "Jack",
   "email": "torans@overlook.net",
-  "avatarUrl": "torrance.png",
+  "avatarPath": "torrance.png",
   "password": "shining"
 }
 

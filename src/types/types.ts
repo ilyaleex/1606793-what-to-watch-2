@@ -1,7 +1,7 @@
 export type User = {
   userName: string
   email: string
-  avatarUrl: string
+  avatarPath: string
   password: string
 }
 

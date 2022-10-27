@@ -1,4 +1,4 @@
-import {Genre} from '../../../types/genre.enum';
+import {Genre} from '../../../types/genre.enum.js';
 import {IsDateString, IsNumber, IsEnum, IsInt, MaxLength, MinLength, IsMongoId, Max, IsArray} from 'class-validator';
 
 export default class CreateFilmDto {
