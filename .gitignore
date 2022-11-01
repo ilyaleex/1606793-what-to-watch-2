@@ -1,0 +1,16 @@
+.vscode/
+/node_modules/
+/build/
+/lib/
+/dist/
+/docs/
+.idea/*
+
+/mongodb/
+/upload/
+*.env
+*.tsv
+
+.DS_Store
+coverage
+*.log
