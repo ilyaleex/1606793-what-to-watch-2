@@ -1,0 +1,198 @@
+### Variables
+@port = 9000
+@apiPrefix = api
+@apiVersion = v1
+@existingMovieId = 63513fcb53b516bc7d56641c
+@existingUserId = 63513fea3efe5b904e9ff506
+@expiredToken = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhcEBnbWFpbC5jb20iLCJpZCI6IjYzNDgwYzI0OWIyZDkwYTdiNjEzYzZmMiIsImlhdCI6MTY2NTY3NTcwMSwiZXhwIjoxNjY1Njc1NzMxfQ.1oC0EobNj7bZGzvokMLhIzPHzKU-rqaYFMtqV__xFsA
+@validToken = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhcEBnbWFpbC5jb20iLCJpZCI6IjYzNTEzZmVhM2VmZTViOTA0ZTlmZjUwNiIsImlhdCI6MTY2NjI2OTIyNSwiZXhwIjoxNjY2NDQyMDI1fQ.3txtpV7CKPJBko133iPLvTdLklfrX41KtHTsKFJTrIM
+
+#####################################################################
+
+### Users
+
+###
+## User registration
+
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/user/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "BobS",
+    "email": "sap@gmail.com",
+    "password": "123456"
+}
+
+###
+## User login
+
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/user/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "sap@gmail.com",
+    "password": "123456"
+}
+
+###
+## Upload avatar
+
+POST http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/user/{{existingUserId}}/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="test.jpg"
+Content-Type: image/png
+
+< /Users/Eugene/tmp/test.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+## User logout
+
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/user/logout HTTP/1.1
+content-type: application/json
+
+###
+## Check user status
+
+GET  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/user/login HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+#####################################################################
+
+#####################################################################
+
+### Comments
+
+###
+## Get comments
+GET http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/comments/{{existingMovieId}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+###
+## Add comment
+POST http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/comments/{{existingMovieId}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+{
+  "text": "Comment example",
+  "rating": 5
+}
+
+#####################################################################
+
+#####################################################################
+
+### Promo movie
+
+###
+## Get info on promo film
+GET http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/promo HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+#####################################################################
+
+#####################################################################
+
+### Favorite films
+
+###
+## Get films added to favorite
+GET http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/favorite HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+###
+## Add/delete from watchlist
+PATCH http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/favorite/{{existingMovieId}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+{
+  "isFavorite": 1
+}
+
+#####################################################################
+
+#####################################################################
+
+### Movies
+
+###
+## Get list of films
+GET http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/movies HTTP/1.1
+content-type: application/json
+
+###
+## Get list of films by genre
+GET http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/movies?genre=drama HTTP/1.1
+content-type: application/json
+
+###
+## Add new film
+POST http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/movies HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+{
+  "name": "New Film",
+  "description": "description field must be from 20 to 1024 symbols length",
+  "published": "2022-05-03T08:55:00.000Z",
+  "genre": "drama",
+  "releaseDate": 2005,
+  "video": "path/to/video",
+  "previewVideo": "path/to/video",
+  "actors": ["Bob Gunton", "Morgan Freeman"],
+  "director": "Frank Darabont",
+  "duration": 122,
+  "poster": "path_to_poster.jpg",
+  "backgroundUrl": "path_to_background.jpg",
+  "backgroundColor": "yellow"
+}
+
+###
+## Get film details
+GET http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/movies/{{existingMovieId}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+###
+## Update film info
+PATCH http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/movies/{{existingMovieId}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+{
+  "name": "New Film",
+  "description": "description field must be from 20 to 1024 symbols length",
+  "published": "2022-05-03T08:55:00.000Z",
+  "genre": "drama",
+  "releaseDate": 2006,
+  "video": "path/to/video",
+  "previewVideo": "path/to/video",
+  "actors": ["Bob Gunton", "Morgan Freeman"],
+  "director": "Frank Darabont",
+  "duration": 105,
+  "poster": "path_to_poster.jpg",
+  "backgroundUrl": "path_to_background.jpg",
+  "backgroundColor": "yellow"
+}
+
+###
+## Delete films and comments
+DELETE http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/movies/{{existingMovieId}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{validToken}}
+
+#####################################################################
+
+
+
+
+
+

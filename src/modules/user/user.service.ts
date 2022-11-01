@@ -1,50 +1,83 @@
-import {UserEntity} from './user.entity.js';
-import CreateUserDto from './dto/create-user.dto.js';
-import {DocumentType, types} from '@typegoose/typegoose';
-import {UserServiceInterface} from './user-service.interface.js';
-import {inject, injectable} from 'inversify';
-import {Component} from '../../types/component.types.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import LoginUserDto from './dto/login-user.dto.js';
-import {DEFAULT_AVATAR_FILE_NAME} from './user.const.js';
+import 'reflect-metadata';
+import { inject, injectable } from 'inversify';
+import { DocumentType, types } from '@typegoose/typegoose';
+import { LoggerInterface } from '../../contracts/index.js';
+import { UserServiceInterface } from './contracts/index.js';
+import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto/index.js';
+import { UserEntity } from './user.entity.js';
+import { ContainerIoC } from '../../constants/index.js';
+import { DEFAULT_AVATAR } from './constants/index.js';
 
 @injectable()
-export default class UserService implements UserServiceInterface {
+export class UserService implements UserServiceInterface {
   constructor(
-    @inject(Component.LoggerInterface) private logger: LoggerInterface,
-    @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>,
+    @inject(ContainerIoC.LoggerInterface) private logger: LoggerInterface,
+    @inject(ContainerIoC.UserModel)
+    private userModel: types.ModelType<UserEntity>
   ) {}
 
-  public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const user = new UserEntity({...dto, avatarPath: DEFAULT_AVATAR_FILE_NAME});
-    user.setPassword(dto.password, salt);
+  async create(
+    dto: CreateUserDto,
+    salt: string
+  ): Promise<DocumentType<UserEntity>> {
+    const { password } = dto;
+    const user = new UserEntity({ ...dto, avatar: DEFAULT_AVATAR });
+    user.setPassword(password, salt);
 
-    const result = await this.userModel.create(user);
-    this.logger.info(`New user created: ${user.email}`);
+    const record = await this.userModel.create(user);
 
-    return result;
+    this.logger.info(`New user created: ${record.email}`);
+
+    return record;
   }
 
-  public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel.findOne({email});
+  async update(
+    userId: string,
+    dto: UpdateUserDto
+  ): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findByIdAndUpdate(
+      { _id: userId },
+      {
+        avatar: dto.avatar,
+      },
+      {
+        new: true,
+      }
+    );
   }
 
-  public async findById(id: string): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel.findById(id);
+  async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({ email });
   }
 
-  public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const user = await this.findByEmail(dto.email);
-    return user ? user : this.create(dto, salt);
+  async findOrCreate(
+    dto: CreateUserDto,
+    salt: string
+  ): Promise<DocumentType<UserEntity>> {
+    const { email } = dto;
+    const existingUser = await this.findByEmail(email);
+    return existingUser ?? this.create(dto, salt);
   }
 
-  public async verifyUser(dto: LoginUserDto, salt: string): Promise<DocumentType<UserEntity> | null> {
-    const existingUser = await this.findByEmail(dto.email);
+  async isExists(documentId: string): Promise<boolean> {
+    return !!(await this.userModel.exists({ _id: documentId, deleted: false }));
+  }
 
-    if (!existingUser) {
+  async verifyUser(
+    dto: LoginUserDto,
+    salt: string
+  ): Promise<DocumentType<UserEntity> | null> {
+    const { email, password } = dto;
+    const user = await this.findByEmail(email);
+
+    if (!user) {
       return null;
     }
 
-    return existingUser.verifyPassword(dto.password, salt) ? existingUser : null;
+    if (!user.verifyPassword(password, salt)) {
+      return null;
+    }
+
+    return user;
   }
 }

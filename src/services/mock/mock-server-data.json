@@ -1,0 +1,108 @@
+{
+  "api": {
+    "names": [
+      "The Shawshank Redemption",
+      "The Godfather",
+      "The Dark Knight",
+      "The Godfather Part II",
+      "12 Angry Men",
+      "Schindler's List"
+    ],
+    "descriptions": [
+      "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+      "The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.",
+      "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+      "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+      "The jury in a New York City murder trial is frustrated by a single member whose skeptical caution forces them to more carefully consider the evidence before jumping to a hasty verdict.",
+      "In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis."
+    ],
+    "publishedYears": [2000, 1998, 2005, 2010],
+    "genres": [
+      "comedy",
+      "crime",
+      "documentary",
+      "drama",
+      "horror",
+      "family",
+      "romance",
+      "scifi",
+      "thriller"
+    ],
+    "releaseDates": [
+      "1999-12-06T00:00:00.000Z",
+      "1999-09-10T00:00:00.000Z",
+      "2000-12-06T00:00:00.000Z",
+      "2001-09-10T00:00:00.000Z",
+      "2002-12-06T00:00:00.000Z"
+    ],
+    "ratings": [9.1, 9, 9.3, 9, 8.9, 9.2],
+    "videos": [
+      "path/to/video1.mp4",
+      "path/to/video2.mp4",
+      "path/to/video3.mp4",
+      "path/to/video4.mp4",
+      "path/to/video5.mp4",
+      "path/to/video6.mp4"
+    ],
+    "previewVideos": [
+      "path/to/video1_preview.mp4",
+      "path/to/video2_preview.mp4",
+      "path/to/video3_preview.mp4",
+      "path/to/video4_preview.mp4",
+      "path/to/video5_preview.mp4",
+      "path/to/video6_preview.mp4"
+    ],
+    "actors": ["Tom Hanks", "David Morse", "James Cromwell"],
+    "directors": [
+      "Steven Spielberg",
+      "Martin Scorsese",
+      "Frank Darabont",
+      "Stanley Kubrick",
+      "Quentin Tarantino"
+    ],
+    "posters": [
+      "poster-1.jpg",
+      "poster-2.jpg",
+      "poster-3.jpg",
+      "poster-4.jpg",
+      "poster-5.jpg",
+      "poster-6.jpg"
+    ],
+    "backgroundUrl": [
+      "bg-1.jpg",
+      "bg-2.jpg",
+      "bg-3.jpg",
+      "bg-4.jpg",
+      "bg-5.jpg",
+      "bg-6.jpg"
+    ],
+    "backgroundColor": ["green", "yellow"],
+    "users": [
+      "Peter Erdington",
+      "Elvis McBright",
+      "John Snow",
+      "Peter Jackson"
+    ],
+    "passwords": [
+      "yuik-ioi213j",
+      "sdciopisdc-2ioiop",
+      "asyxuiyuia-123k",
+      "asxui213kjhx-asx"
+    ],
+    "emails": [
+      "one@gmail.com",
+      "two@gmail.com",
+      "three@gmail.com",
+      "four@gmail.com",
+      "five@gmail.com"
+    ],
+    "avatars": [
+      "avatar-1.jpg",
+      "avatar-2.jpg",
+      "avatar-3.jpg",
+      "avatar-4.jpg",
+      "avatar-5.jpg",
+      "avatar-6.jpg"
+    ]
+  }
+}

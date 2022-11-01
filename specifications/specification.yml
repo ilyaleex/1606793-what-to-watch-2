@@ -1,0 +1,716 @@
+openapi: '3.0.1'
+info:
+  title: API server for project "What to watch".
+  description: |-
+    * A list of resources and routes of the server "What to watch".
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+  - name: users
+    description: Actions with user.
+  - name: films
+    description: Actions with films.
+  - name: comments
+    description: Actions with comments.
+  - name: watchlist
+    description: Actions with watchlist.
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: User registration
+      description: Registers a new user.
+
+      responses:
+        "201":
+          description: User is registered. User object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "409":
+          description: A user with this email already exists.
+
+      requestBody:
+        description: Information for creating a new user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: User authorization
+      description: Authorizes user based on login and password.
+
+      responses:
+        "200":
+          description: User authorized. User object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+    get:
+      tags:
+        - users
+      summary: User status check
+      description: Returns information on the authorized user.
+
+      responses:
+        "401":
+          description: User is not authorized.
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Upload avatar image
+      description: Uploads avatar image of the user. The image must be in `png` or `jpg` format.
+
+      responses:
+        "201":
+          description: Avatar is loaded.
+
+
+  /films:
+    post:
+      tags:
+        - films
+      summary: New film card.
+      description: Adds new film card.
+
+      responses:
+        "201":
+          description: Film is added. Film object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+        "401":
+          description: User is not authorized.
+
+      requestBody:
+        description: Information on adding new film card.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addFilm'
+        required: true
+
+    get:
+      tags:
+        - films
+      summary: Getting list of the films.
+      description: Service always returns list of the films sorted by post date (descending order), 60 by default.
+        The list can be requested by both authorized and anonymous users.
+
+      parameters:
+        - name: count
+          in: query
+          description: Films count.
+          required: false
+          schema:
+            type: number
+            example: 100
+
+      responses:
+        "200":
+          description: Films list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/shortFilm'
+                    - type: object
+
+  /films/{filmId}:
+    put:
+      tags:
+        - films
+      summary: Editing film card.
+      description: Edits film card. User is able to edit the film card that he added.
+
+      parameters:
+        - name: filmId
+          in: path
+          description: Film id.
+          required: true
+          schema:
+            type: string
+            example: 633041890aa1e923453c2957
+
+      responses:
+        "201":
+          description: Film is added. Film object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+        "401":
+          description: User is not authorized.
+
+      requestBody:
+        description: Information on editing the film card.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/editFilm'
+        required: true
+
+    get:
+      tags:
+        - films
+      summary: Getting film details.
+      description: Returns detailed informtion on exact film.
+        The information can be requested by both authorized and anonymous users.
+
+      responses:
+        "200":
+          description: Film object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+
+    delete:
+      tags:
+        - films
+      summary: Deleting film card.
+      description: Deletes film card. User is allowed to delete films that he added only.
+
+      responses:
+        "401":
+          description: User is not authorized.
+
+      requestBody:
+        description: Information on deleting the film card.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/film'
+        required: true
+
+
+  /films/promo:
+    get:
+      tags:
+        - films
+      summary: Getting promo film.
+      description: Returns detailed informtion on exact film.
+        The information can be requested by both authorized and anonymous users.
+
+      responses:
+        "200":
+          description: Film object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+
+
+  /films/{genre}:
+    get:
+      tags:
+        - films
+      summary: Getting list of the films by genre.
+      description: Service always returns list of the films sorted by post date (descending order).
+        The list can be requested by both authorized and anonymous users.
+      parameters:
+        - name: count
+          in: query
+          description: Films count.
+          required: false
+          schema:
+            type: number
+            example: 100
+
+      responses:
+        "200":
+          description: Films list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/shortFilm'
+                    - type: object
+
+  /watchlist:
+    get:
+      tags:
+        - films
+      summary: Getting list of the films added to watch.
+      description: Service returns list of the films added to watch.
+
+      parameters:
+        - name: count
+          in: query
+          description: Films count.
+          required: false
+          schema:
+            type: number
+            example: 100
+
+      responses:
+        "200":
+          description: Films list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/shortFilm'
+                    - type: object
+        "401":
+          description: User is not authorized.
+
+  /watchlist/{filmId}:
+    post:
+      tags:
+        - films
+      summary: Adding/removing the film from watchlist.
+      description: The service provides a resource for adding/removing any movie from watchlist.
+
+      parameters:
+        - name: filmId
+          in: path
+          description: Film id.
+          required: true
+          schema:
+            type: string
+            example: 633041890aa1e923453c2957
+
+        - name: action
+          in: query
+          description: 1 - add / 0 - remove
+          required: true
+          schema:
+            type: number
+            example: 1
+
+      responses:
+        "200":
+          description: Watchlist status is updated. Updated film object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/film'
+        "401":
+          description: User is not authorized.
+
+  /comments:
+    post:
+      tags:
+        - comments
+      summary: Add new comment to the film.
+      description: Adds new comment to the film.
+
+      requestBody:
+        description: Information on adding new comment.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createComment'
+        required: true
+
+      responses:
+        "201":
+          description: Сomment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        "401":
+          description: User is not authorized.
+
+  /comments/{filmId}:
+    get:
+      tags:
+        - comments
+      summary: Getting list of the comments for the film.
+      description: Service always returns list of 50 (or less) last comments.
+        Comments are sorted by post date (descending order), first new then old.
+      parameters:
+        - name: filmId
+          in: path
+          description: Film id.
+          required: true
+          schema:
+            type: string
+            example: 633041890aa1e923453c2957
+
+      responses:
+        "200":
+          description: Comments list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/comment'
+                    - type: object
+
+components:
+  schemas:
+    createUser:
+      type: object
+
+      properties:
+        userName:
+          type: string
+          example: Keks
+
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+
+        avatarPath:
+          type: string
+          example: Keks.jpg
+
+        password:
+          type: string
+          example: 123456
+
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        userName:
+          type: string
+          example: Keks
+
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+        avatarPath:
+          type: string
+          example: Keks.jpg
+
+        password:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+    film:
+      type: object
+
+      properties:
+        id:
+          type: number
+          example: 1
+
+        name:
+          type: string
+          example: Fast and Furios
+
+        description:
+          type: string
+          example: Dominic Toretto is a gang leader who is accused of hijacking trucks and stealing over a million dollars...
+
+        postDate:
+          type: string
+          example: 2022-09-01
+
+        genre:
+          type: string
+          example: crime
+
+        releaseYear:
+          type: number
+          example: 2001
+
+        rating:
+          type: number
+          example: 7.7
+
+        previewVideoLink:
+          type: string
+          example: http://previewvideo1.com
+
+        videoLink:
+          type: string
+          example: http://video1.com
+
+        starring:
+          type: array
+          example: [Vin Diesel, Paul Walker, Michelle Rodriguez]
+
+        director:
+          type: string
+          example: Justin Lin
+
+        runTime:
+          type: number
+          example: 106
+
+        commentCount:
+          type: number
+          example: 10
+
+        userId:
+          type: string
+          example: 633041890aa1e923453c294c
+
+        posterLink:
+          type: string
+          example: http://poster2/1.jpg
+
+        bgLink:
+          type: string
+          example: http://bg2/1.jpg
+
+        bgColor:
+          type: string
+          example: '#ffffff'
+
+    shortFilm:
+      type: object
+
+      properties:
+        id:
+          type: number
+          example: 1
+
+        name:
+          type: string
+          example: Fast and Furious
+
+        postDate:
+          type: string
+          example: 2022-09-01
+
+        genre:
+          type: string
+          example: crime
+
+        userId:
+          type: string
+          example: 633041890aa1e923453c294c
+
+        previewVideoLink:
+          type: string
+          example: http://previewvideo1.com
+
+        posterLink:
+          type: string
+          example: http://poster2/1.jpg
+
+        commentCount:
+          type: number
+          example: 10
+
+    addFilm:
+      type: object
+
+      properties:
+        id:
+          type: number
+          example: 1
+
+        name:
+          type: string
+          example: Fast and Furios
+
+        description:
+          type: string
+          example: Dominic Toretto is a gang leader who is accused of hijacking trucks and stealing over a million dollars...
+
+        postDate:
+          type: string
+          example: 2022-09-01
+
+        genre:
+          type: string
+          example: crime
+
+        releaseYear:
+          type: number
+          example: 2001
+
+        rating:
+          type: number
+          example: 7.7
+
+        previewVideoLink:
+          type: string
+          example: http://previewvideo1.com
+
+        videoLink:
+          type: string
+          example: http://video1.com
+
+        starring:
+          type: array
+          example: [Vin Diesel, Paul Walker, Michelle Rodriguez]
+
+        director:
+          type: string
+          example: Justin Lin
+
+        runTime:
+          type: number
+          example: 106
+
+        commentCount:
+          type: number
+          example: 10
+
+        userId:
+          type: string
+          example: 633041890aa1e923453c294c
+
+        posterLink:
+          type: string
+          example: http://poster2/1.jpg
+
+        bgLink:
+          type: string
+          example: http://bg2/1.jpg
+
+        bgColor:
+          type: string
+          example: '#ffffff'
+
+    editFilm:
+      type: object
+
+      properties:
+        id:
+          type: number
+          example: 1
+
+        name:
+          type: string
+          example: Fast and Furios
+
+        description:
+          type: string
+          example: Dominic Toretto is a gang leader who is accused of hijacking trucks and stealing over a million dollars...
+
+        postDate:
+          type: string
+          example: 2022-09-01
+
+        genre:
+          type: string
+          example: crime
+
+        releaseYear:
+          type: number
+          example: 2001
+
+        rating:
+          type: number
+          example: 7.7
+
+        previewVideoLink:
+          type: string
+          example: http://previewvideo1.com
+
+        videoLink:
+          type: string
+          example: http://video1.com
+
+        starring:
+          type: array
+          example: [Vin Diesel, Paul Walker, Michelle Rodriguez]
+
+        director:
+          type: string
+          example: Justin Lin
+
+        runTime:
+          type: number
+          example: 106
+
+        commentCount:
+          type: number
+          example: 10
+
+        userId:
+          type: string
+          example: 633041890aa1e923453c294c
+
+        posterLink:
+          type: string
+          example: http://poster2/1.jpg
+
+        bgLink:
+          type: string
+          example: http://bg2/1.jpg
+
+        bgColor:
+          type: string
+          example: '#ffffff'
+
+
+    comment:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        text:
+          type: string
+          example: Great movie!
+
+        rating:
+          type: number
+          example: 9.8
+
+        postDate:
+          type: string
+          example: 2022-04-06T08:45:40.283Z
+
+        userId:
+          type: string
+          example: 633041890aa1e923453c294c
+
+    createComment:
+      type: object
+
+      properties:
+        text:
+          type: string
+          example: Great movie!
+
+        rating:
+          type: number
+          example: 9.8
+
+        postDate:
+          type: string
+          example: 2022-04-06T08:45:40.283Z
+
+        userId:
+          type: string
+          example: 633041890aa1e923453c294c
+
+        filmId:
+          type: string
+          example: 633041890aa1e923453c294c

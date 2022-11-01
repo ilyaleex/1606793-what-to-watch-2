@@ -1,47 +1,50 @@
 import 'reflect-metadata';
-import {inject, injectable} from 'inversify';
-import {CommentEntity} from './comment.entity.js';
+import { inject, injectable } from 'inversify';
 import { DocumentType, types } from '@typegoose/typegoose';
-import CreateCommentDto from './dto/create-comment.dto.js';
-import {CommentServiceInterface} from './comment-service.interface.js';
-import {Component} from '../../types/component.types.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import {DEFAULT_COMMENT_COUNT} from './comment.const.js';
-
+import { LoggerInterface } from '../../contracts/index.js';
+import { CommentServiceInterface } from './contracts/comment-service.js';
+import { ContainerIoC, SortType } from '../../constants/index.js';
+import { CommentEntity } from './comment.entity';
+import { CreateCommentDto, UpdateCommentDto } from './dto/index.js';
 
 @injectable()
-export default class CommentService implements CommentServiceInterface {
+export class CommentService implements CommentServiceInterface {
   constructor(
-    @inject(Component.LoggerInterface) private logger: LoggerInterface,
-    @inject(Component.CommentModel) private readonly commentModel: types.ModelType<CommentEntity>
+    @inject(ContainerIoC.LoggerInterface) private logger: LoggerInterface,
+    @inject(ContainerIoC.CommentModel)
+    private commentModel: types.ModelType<CommentEntity>
   ) {}
 
-  public async create(filmId: string, dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
-    dto.filmId = filmId;
-    const comment = await this.commentModel.create(dto);
-    this.logger.info(`New comment created: ${dto.text}`);
-
-    return comment.populate(['userId']);
+  async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
+    const record = await this.commentModel.create(dto);
+    this.logger.info('Comment added');
+    return record.populate(['userId']);
   }
 
-  public async findByFilmId(filmId: string): Promise<DocumentType<CommentEntity>[]> {
+  async show(
+    movieId: string,
+    limit: number
+  ): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
-      .find({filmId})
-      .sort({publishDate: 'descending'})
-      .limit(DEFAULT_COMMENT_COUNT)
-      .populate(['userId'])
-      .exec();
+      .find({ movieId })
+      .sort({ createdAt: SortType.Desc })
+      .limit(limit)
+      .populate(['userId']);
   }
 
-  public async findAllByFilmId(filmId: string): Promise<DocumentType<CommentEntity>[]> {
-    return this.commentModel
-      .find({filmId})
-      .exec();
+  async update(
+    movieId: string,
+    dto: Partial<UpdateCommentDto>
+  ): Promise<DocumentType<CommentEntity> | null> {
+    return this.commentModel.findByIdAndUpdate({ _id: movieId }, dto, {
+      new: true,
+    });
   }
 
-  public async deleteAllByFilmId(filmId: string): Promise<void> {
-    this.commentModel
-      .deleteMany({filmId})
-      .exec();
+  async delete(movieId: string): Promise<void> {
+    const records = await this.commentModel.find({ movieId: movieId });
+    for await (const record of records) {
+      await this.update(record.id, { deleted: true });
+    }
   }
 }

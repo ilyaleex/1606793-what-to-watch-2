@@ -1,47 +1,103 @@
 import 'reflect-metadata';
-import Application from './app/application.js';
-import LoggerService from './common/logger/logger.service.js';
-import ConfigService from './common/config/config.service.js';
-import {Container} from 'inversify';
-import {ConfigInterface} from './common/config/config.interface.js';
-import {Component} from './types/component.types.js';
-import {LoggerInterface} from './common/logger/logger.interface.js';
-import DatabaseService from './common/database-client/database.service.js';
-import {DatabaseInterface} from './common/database-client/database.interface.js';
-import UserService from './modules/user/user.service.js';
-import {UserServiceInterface} from './modules/user/user-service.interface.js';
-import {UserEntity, UserModel} from './modules/user/user.entity.js';
-import {types} from '@typegoose/typegoose';
-import {FilmEntity, FilmModel} from './modules/film/film.entity.js';
-import {FilmServiceInterface} from './modules/film/film-service.interface.js';
-import FilmService from './modules/film/film.service.js';
-import CommentService from './modules/comment/comment.service.js';
-import {CommentEntity, CommentModel} from './modules/comment/comment.entity.js';
-import {CommentServiceInterface} from './modules/comment/comment-service.interface.js';
-import {ControllerInterface} from './common/controller/controller.interface.js';
-import FilmController from './modules/film/film.controller.js';
-import {ExceptionFilterInterface} from './common/errors/exception-filter.interface.js';
-import ExceptionFilter from './common/errors/exception.filter.js';
-import UserController from './modules/user/user.controller.js';
-import CommentController from './modules/comment/comment.controller.js';
+import { Container } from 'inversify';
+import { types } from '@typegoose/typegoose';
+import { LoggerService } from './services/logger/index.js';
+import { LoggerInterface } from './contracts/index.js';
+import { ConfigService } from './services/config/index.js';
+import { ConfigInterface } from './services/config/contracts/index.js';
+import { Application } from './app/application/index.js';
+import { DatabaseService } from './services/database/index.js';
+import { DatabaseInterface } from './services/database/contracts/index.js';
+import { ControllerInterface } from './services/controller/contracts/index.js';
+import { ContainerIoC } from './constants/index.js';
+import {
+  UserService,
+  UserServiceInterface,
+  UserModel,
+  UserEntity,
+  UserController,
+} from './modules/user/index.js';
+import {
+  FilmService,
+  FilmServiceInterface,
+  FilmController,
+  FilmFavoriteController,
+  FilmPromoController,
+  FilmModel,
+  FilmEntity,
+} from './modules/movie/index.js';
+import {
+  CommentService,
+  CommentServiceInterface,
+  CommentModel,
+  CommentEntity,
+  CommentController,
+} from './modules/comment/index.js';
+import {
+  ExceptionFilter,
+  ExceptionFilterInterface,
+} from './services/error/index.js';
 
-const applicationContainer = new Container();
-applicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
-applicationContainer.bind<LoggerInterface>(Component.LoggerInterface).to(LoggerService).inSingletonScope();
-applicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigService).inSingletonScope();
-applicationContainer.bind<DatabaseInterface>(Component.DatabaseInterface).to(DatabaseService).inSingletonScope();
-applicationContainer.bind<UserServiceInterface>(Component.UserServiceInterface).to(UserService);
-applicationContainer.bind<types.ModelType<UserEntity>>(Component.UserModel).toConstantValue(UserModel);
-applicationContainer.bind<FilmServiceInterface>(Component.FilmServiceInterface).to(FilmService);
-applicationContainer.bind<types.ModelType<FilmEntity>>(Component.FilmModel).toConstantValue(FilmModel);
-applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService).inSingletonScope();
-applicationContainer.bind<types.ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
+const container = new Container();
+container
+  .bind<Application>(ContainerIoC.Application)
+  .to(Application)
+  .inSingletonScope();
+container
+  .bind<LoggerInterface>(ContainerIoC.LoggerInterface)
+  .to(LoggerService)
+  .inSingletonScope();
+container
+  .bind<ConfigInterface>(ContainerIoC.ConfigInterface)
+  .to(ConfigService)
+  .inSingletonScope();
+container
+  .bind<DatabaseInterface>(ContainerIoC.DatabaseInterface)
+  .to(DatabaseService)
+  .inSingletonScope();
 
-applicationContainer.bind<ExceptionFilterInterface>(Component.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
-applicationContainer.bind<ControllerInterface>(Component.UserController).to(UserController).inSingletonScope();
-applicationContainer.bind<ControllerInterface>(Component.FilmController).to(FilmController).inSingletonScope();
-applicationContainer.bind<ControllerInterface>(Component.CommentController).to(CommentController).inSingletonScope();
+container.bind<UserServiceInterface>(ContainerIoC.UserService).to(UserService);
+container
+  .bind<types.ModelType<UserEntity>>(ContainerIoC.UserModel)
+  .toConstantValue(UserModel);
+container
+  .bind<ControllerInterface>(ContainerIoC.UserController)
+  .to(UserController)
+  .inSingletonScope();
 
+container.bind<FilmServiceInterface>(ContainerIoC.FilmService).to(FilmService);
+container
+  .bind<types.ModelType<FilmEntity>>(ContainerIoC.FilmModel)
+  .toConstantValue(FilmModel);
+container
+  .bind<ControllerInterface>(ContainerIoC.FilmController)
+  .to(FilmController)
+  .inSingletonScope();
+container
+  .bind<ControllerInterface>(ContainerIoC.FilmFavoriteController)
+  .to(FilmFavoriteController)
+  .inSingletonScope();
+container
+  .bind<ControllerInterface>(ContainerIoC.FilmPromoController)
+  .to(FilmPromoController)
+  .inSingletonScope();
 
-const application = applicationContainer.get<Application>(Component.Application);
-await application.init();
+container
+  .bind<CommentServiceInterface>(ContainerIoC.CommentService)
+  .to(CommentService);
+container
+  .bind<types.ModelType<CommentEntity>>(ContainerIoC.CommentModel)
+  .toConstantValue(CommentModel);
+container
+  .bind<ControllerInterface>(ContainerIoC.CommentController)
+  .to(CommentController)
+  .inSingletonScope();
+
+container
+  .bind<ExceptionFilterInterface>(ContainerIoC.ExceptionFilter)
+  .to(ExceptionFilter)
+  .inSingletonScope();
+
+const app = container.get<Application>(ContainerIoC.Application);
+
+await app.init();

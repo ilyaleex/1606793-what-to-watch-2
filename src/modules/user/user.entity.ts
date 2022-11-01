@@ -1,49 +1,56 @@
-import {User} from '../../types/types.js';
-import typegoose, {defaultClasses, getModelForClass} from '@typegoose/typegoose';
-import {createSHA256} from '../../utils/common.js';
+import { UserInterface } from './contracts/index.js';
+import { User } from '../../contracts/index.js';
+import typegoose, {
+  getModelForClass,
+  defaultClasses,
+} from '@typegoose/typegoose';
+import { createSHA256 } from '../../utils/index.js';
 
-const {prop, modelOptions} = typegoose;
+const { prop, modelOptions } = typegoose;
 
 export interface UserEntity extends defaultClasses.Base {}
 
 @modelOptions({
   schemaOptions: {
-  collection: 'users'
-  }
-  })
-export class UserEntity extends defaultClasses.TimeStamps implements User {
+    collection: 'users',
+  },
+})
+export class UserEntity
+  extends defaultClasses.TimeStamps
+  implements UserInterface
+{
+  @prop({ required: true, default: '' })
+  public name!: string;
+
+  @prop({ unique: true, required: true })
+  public email!: string;
+
+  @prop({ required: true, default: '' })
+  public password!: string;
+
+  @prop({ default: '' })
+  public avatar!: string;
+
   constructor(data: User) {
     super();
 
-    this.userName = data.userName;
-    this.email = data.email;
-    this.avatarPath = data.avatarPath;
-    this.password = data.password;
+    const { name, email, avatar } = data;
+
+    this.email = email;
+    this.name = name;
+    this.avatar = avatar;
   }
 
-  @prop({unique: true, required: true})
-  public userName!: string;
-
-  @prop({required: true})
-  public email!: string;
-
-  @prop({required: false})
-  public avatarPath: string;
-
-  @prop({required: true})
-  public password!: string;
-
-  public setPassword(password: string, salt: string) {
+  setPassword(password: string, salt: string) {
     this.password = createSHA256(password, salt);
   }
 
-  public getPassword() {
+  getPassword() {
     return this.password;
   }
 
-  public verifyPassword(password: string, salt: string) {
-    const passwordHash = createSHA256(password, salt);
-    return passwordHash === this.getPassword();
+  verifyPassword(password: string, salt: string): boolean {
+    return createSHA256(password, salt) === this.password;
   }
 }
 
